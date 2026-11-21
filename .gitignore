@@ -16,6 +16,10 @@ secrets/
 token*.txt
 config.local.*
 
+# Lab local config / build output
+lab/lab.env
+build/
+
 # Python
 __pycache__/
 *.pyc

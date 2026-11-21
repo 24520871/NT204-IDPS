@@ -34,6 +34,8 @@ Nguồn: `Group7_Proposal_NT204_IDPS_v3.docx`. File này dùng để giám sát 
 - [ ] Chốt schema `ground_truth` và `fw_audit`
 - [ ] Gán owner cho từng stage/UC
 - [ ] Tạo thư mục cho từng use case để tránh xung đột
+- [ ] Chốt quy ước triển khai: monorepo, mỗi VM clone repo + chạy script của VM đó (`lab/<vm>/install.sh` lần đầu, `apply.sh` / `deploy_app.sh` sau mỗi `git pull`)
+- [ ] Quy ước header file `.spl` (`# name/cron/earliest/latest`) để `scripts/build_app.sh` sinh `savedsearches.conf`
 
 **DoD:** Cả nhóm clone repo, đọc contract, merge được PR đầu tiên.
 **Deliverable:** `README.md`, `docs/integration-contract.md`, `.github/`.
@@ -50,6 +52,9 @@ Nguồn: `Group7_Proposal_NT204_IDPS_v3.docx`. File này dùng để giám sát 
 - [ ] chrony: tất cả VM đồng bộ với VM2
 - [ ] NIC LAN của VM2: promiscuous "Allow All"; **test**: tạo kết nối giữa 2 máy LAN → thấy trong `conn.log`
 - [ ] Kiểm thử từng dòng ma trận luồng (cho phép + bị từ chối)
+- [ ] Điền `lab/lab.env` (từ `lab/lab.env.example`) với IP/interface thật
+- [ ] Hoàn thiện `install.sh` cho VM1–VM5 và `apply.sh` cho VM2 (idempotent, chạy lại được)
+- [ ] Đường đưa repo/gói vào VM Internal Network: NIC NAT tạm hoặc `scp`/shared folder; gỡ NIC NAT sau khi cài xong
 - [ ] Snapshot VM sau khi dựng xong
 
 **DoD:** Các luồng hợp lệ chạy được, luồng ngoài ma trận bị drop và Zeek thấy; intra-LAN visibility được kiểm chứng.
@@ -67,6 +72,8 @@ Nguồn: `Group7_Proposal_NT204_IDPS_v3.docx`. File này dùng để giám sát 
 - [ ] Dedup theo `community_id` cho luồng DMZ↔LAN thấy trên 2 NIC
 - [ ] Data quality checks (đủ log, timestamp khớp, field src/dst/port/proto parse đúng, dedup hoạt động)
 - [ ] Lưu cấu hình dưới dạng Splunk app `splunk/apps/idps_lab`
+- [ ] Hoàn thiện `scripts/build_app.sh` + `lab/vm5-splunk/deploy_app.sh` (ghép `detections/*/*.spl` → `savedsearches.conf`, deploy vào VM5)
+- [ ] Hoàn thiện `lab/vm2-firewall-zeek/apply.sh` cho Zeek (.sig, .intel, local.zeek) và Universal Forwarder
 - [ ] Dashboard tình trạng ingest
 
 **DoD:** Dashboard ingest xanh; truy vấn mẫu trả đúng; dedup xác nhận không nhân đôi.
