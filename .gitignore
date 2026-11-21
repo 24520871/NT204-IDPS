@@ -1,0 +1,30 @@
+# VM / big files
+*.ova
+*.ovf
+*.vdi
+*.vmdk
+*.iso
+*.pcap
+*.pcapng
+
+# Secrets
+.env
+*.env
+*.key
+*.pem
+secrets/
+token*.txt
+config.local.*
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+~$*

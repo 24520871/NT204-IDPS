@@ -1,0 +1,46 @@
+#!/usr/sbin/nft -f
+# Skeleton – default deny theo Bang 3.2 (docs/architecture.md). TODO: dien IP/interface thuc te (S1).
+
+flush ruleset
+
+define IF_EXT  = "enp0s3"   # TODO
+define IF_DMZ  = "enp0s8"   # TODO
+define IF_LAN  = "enp0s9"   # TODO
+define IF_MGMT = "enp0s10"  # TODO
+
+table inet idps {
+  # Block dong, co timeout (Block Agent them/xoa phan tu)
+  set blocked_src    { type ipv4_addr; flags timeout; }
+  set blocked_dst    { type ipv4_addr; flags timeout; }
+  set blocked_egress { type ipv4_addr . ipv4_addr; flags timeout; }  # src . dst
+  set isolated_hosts { type ipv4_addr; flags timeout; }
+
+  chain forward {
+    type filter hook forward priority 0; policy drop;
+
+    ct state established,related accept
+
+    ip saddr @blocked_src drop
+    ip daddr @blocked_dst drop
+    ip saddr . ip daddr @blocked_egress drop
+    ip saddr @isolated_hosts drop
+    ip daddr @isolated_hosts drop
+
+    # TODO: cac rule cho phep theo Bang 3.2
+    #  ext -> DMZ   tcp 80,443 -> web server
+    #  DMZ -> LAN   tcp 3306 web -> DB
+    #  DMZ -> ext   tcp 80,443 -> update server
+    #  LAN client -> resolver  udp/tcp 53
+    #  resolver -> ext         udp/tcp 53
+    #  LAN -> ext   tcp 80,443
+
+    log prefix "nft-deny " level info drop
+  }
+
+  chain input {
+    type filter hook input priority 0; policy drop;
+    ct state established,related accept
+    iif lo accept
+    # TODO: mgmt-net: ssh, Block Agent (HTTPS), UF -> VM5:9997
+  }
+}
