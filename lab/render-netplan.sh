@@ -12,7 +12,7 @@ tmpl=$(ls "$REPO_ROOT"/lab/${vm}-*/netplan/60-lab.yaml.tmpl 2>/dev/null | head -
 command -v envsubst >/dev/null || die "Thieu envsubst (apt install gettext-base)"
 
 out=/etc/netplan/60-lab.yaml
-set -a; source "$LAB_ENV"; set +a
+set -a; load_env; set +a
 envsubst < "$tmpl" > "$out"
 chmod 600 "$out"
 log "wrote $out - kiem tra roi chay: netplan apply"

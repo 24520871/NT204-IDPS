@@ -1,3 +1,4 @@
+# dnsmasq nghe tren ${VM4_IP} (bind-interfaces) nen VM4 cung hoi DNS qua IP nay.
 network:
   version: 2
   ethernets:
@@ -8,4 +9,4 @@ network:
         - to: default
           via: ${VM2_LAN_IP}
       nameservers:
-        addresses: [127.0.0.1]
+        addresses: [${VM4_RESOLVER_IP}]

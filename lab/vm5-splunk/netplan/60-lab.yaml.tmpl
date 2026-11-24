@@ -1,6 +1,10 @@
+# NIC 1: mgmt-net (khong co default route). NIC 2: Host-only de may host mo Splunk Web/SSH.
 network:
   version: 2
   ethernets:
     ${VM5_IF}:
       dhcp4: false
       addresses: [${VM5_IP}/24]
+    ${VM5_IF_HOST}:
+      dhcp4: false
+      addresses: [${VM5_HOSTONLY_IP}/24]

@@ -14,8 +14,9 @@ Một repo (monorepo); mỗi VM clone cả repo và chỉ chạy script của m�
 
 ```bash
 git clone https://github.com/24520871/NT204-IDPS.git && cd NT204-IDPS
-cp lab/lab.env.example lab/lab.env   # điền IP/interface thật (file này không commit)
-sudo bash lab/<vm>/install.sh        # lần đầu
+# lab/lab.env đã có sẵn trong repo; VM nào khác interface thì tạo lab/lab.local.env (không commit) để ghi đè
+sudo bash lab/<vm>/install.sh packages    # lần đầu, giai đoạn A (cần Internet)
+sudo bash lab/<vm>/install.sh configure   # giai đoạn B (offline)
 # về sau, sau mỗi git pull:
 sudo bash lab/vm2-firewall-zeek/apply.sh   # VM2: nftables, Zeek, forwarder, Block Agent
 sudo bash lab/vm5-splunk/deploy_app.sh     # VM5: build + deploy Splunk app

@@ -1,0 +1,57 @@
+#!/usr/sbin/nft -f
+# Template: apply.sh render bang envsubst (chi thay cac bien liet ke trong apply.sh) roi nap vao /etc/nftables.conf.
+# Cac luong cho phep = Bang 3.2 (docs/architecture.md). Moi thu khac: default deny + log.
+# Luong cung subnet (VM6 <-> VM4) khong di qua forward chain nen khong co rule o day.
+
+flush ruleset
+
+table inet idps {
+  # Set block dong, co timeout. Block Agent (S5) them/xoa phan tu.
+  set blocked_src    { type ipv4_addr; flags timeout; }
+  set blocked_dst    { type ipv4_addr; flags timeout; }
+  set blocked_egress { type ipv4_addr . ipv4_addr; flags timeout; }   # src . dst
+  set isolated_hosts { type ipv4_addr; flags timeout; }
+
+  chain forward {
+    type filter hook forward priority 0; policy drop;
+
+    ct state invalid drop
+
+    # Block dong (S5) dat truoc cac rule cho phep
+    ip saddr @blocked_src drop
+    ip daddr @blocked_dst drop
+    ip saddr . ip daddr @blocked_egress drop
+    ip saddr @isolated_hosts drop
+    ip daddr @isolated_hosts drop
+
+    ct state established,related accept
+
+    # ext -> DMZ: TCP 80/443 toi web server
+    iifname "${VM2_IF_EXT}" oifname "${VM2_IF_DMZ}" ip daddr ${VM3_IP} tcp dport { 80, 443 } accept
+    # DMZ -> LAN: chi TCP 3306 tu web server toi CSDL
+    iifname "${VM2_IF_DMZ}" oifname "${VM2_IF_LAN}" ip saddr ${VM3_IP} ip daddr ${VM4_IP} tcp dport 3306 accept
+    # DMZ -> ext: chi TCP 80/443 toi may chu cap nhat
+    iifname "${VM2_IF_DMZ}" oifname "${VM2_IF_EXT}" ip saddr ${VM3_IP} ip daddr ${VM1_UPDATE_IP} tcp dport { 80, 443 } accept
+    # Resolver noi bo -> ext: UDP/TCP 53
+    iifname "${VM2_IF_LAN}" oifname "${VM2_IF_EXT}" ip saddr ${VM4_IP} meta l4proto { tcp, udp } th dport 53 accept
+    # LAN -> ext: TCP 80/443
+    iifname "${VM2_IF_LAN}" oifname "${VM2_IF_EXT}" tcp dport { 80, 443 } accept
+
+    # Con lai: log (gioi han toc do) roi drop theo policy
+    limit rate 20/second burst 50 packets log prefix "nft-deny "
+  }
+
+  chain input {
+    type filter hook input priority 0; policy drop;
+
+    ct state established,related accept
+    iif lo accept
+    icmp type echo-request accept
+
+    # chrony (VM2 la nguon thoi gian)
+    iifname { "${VM2_IF_EXT}", "${VM2_IF_DMZ}", "${VM2_IF_LAN}", "${VM2_IF_MGMT}" } udp dport 123 accept
+
+    # mgmt-net: SSH va Block Agent chi tu VM5
+    iifname "${VM2_IF_MGMT}" ip saddr ${VM5_IP} tcp dport { 22, ${BLOCK_AGENT_PORT} } accept
+  }
+}

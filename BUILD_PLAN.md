@@ -53,11 +53,11 @@ Nguồn: `Group7_Proposal_NT204_IDPS_v3.docx`. File này dùng để giám sát 
 - [ ] VM3 Web DMZ: ứng dụng có lỗ hổng thực thi lệnh; config chứa thông tin DB (pivot UC5)
 - [ ] VM4 LAN server: MySQL, file share, resolver nội bộ (dnsmasq)
 - [ ] VM6 LAN workstation (thay 2 container macvlan; IP chính + 1 alias) (quyết định của trưởng nhóm: 5 → 6 VM)
-- [ ] VM5 Splunk Enterprise trên mgmt-net (ghi **ngày bắt đầu trial 60 ngày**)
+- [ ] VM5 Splunk Enterprise trên mgmt-net + adapter Host-only (192.168.56.10) để mở Splunk Web/SSH từ host; các VM khác dùng console (ghi **ngày bắt đầu trial 60 ngày**)
 - [ ] chrony: tất cả VM đồng bộ với VM2
 - [ ] NIC LAN của VM2: promiscuous "Allow All"; **test S1**: VM6 ↔ VM4 thấy bằng `tcpdump` trên NIC LAN của VM2 (xác nhận bằng `conn.log` ở S2)
 - [ ] Viết `scripts/verify-s1.sh`; kiểm thử từng dòng ma trận luồng (cho phép + bị từ chối), lưu output vào `evaluation/evidence/s1/`
-- [ ] Điền `lab/lab.env` (từ `lab/lab.env.example`) với interface thật; áp netplan bằng `lab/render-netplan.sh <vm>`
+- [ ] Chỉnh `lab/lab.env` theo interface thật (VM khác thì dùng `lab/lab.local.env`); áp netplan bằng `lab/render-netplan.sh <vm>`
 - [ ] Hoàn thiện `install.sh` cho VM1–VM6 và `apply.sh` cho VM2 (idempotent, chạy lại được)
 - [ ] Đường đưa repo/gói vào VM Internal Network: NIC NAT tạm hoặc `scp`/shared folder; gỡ NIC NAT sau khi cài xong
 - [ ] Snapshot VM sau khi dựng xong

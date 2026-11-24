@@ -16,8 +16,9 @@ secrets/
 token*.txt
 config.local.*
 
-# Lab local config / build output
-lab/lab.env
+# Lab config: lab.env duoc commit (khong chua bi mat), ban ghi de local thi khong
+!lab/lab.env
+lab/lab.local.env
 build/
 
 # Python
