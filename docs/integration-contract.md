@@ -6,6 +6,7 @@ Thống nhất trước khi phát triển song song. Mọi thay đổi phải qu
 
 | Index | Nguồn | Ghi chú |
 |---|---|---|
+| `zeek_ext` | Zeek, NIC phía ext | JSON, có `community_id`; gồm cả lưu lượng bị firewall chặn |
 | `zeek_dmz` | Zeek, NIC phía DMZ | JSON, có `community_id` |
 | `zeek_lan` | Zeek, NIC phía LAN | JSON, có `community_id` |
 | `fw_audit` | log nftables + audit Block Agent | |

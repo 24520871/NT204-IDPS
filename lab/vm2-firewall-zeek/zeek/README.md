@@ -7,4 +7,4 @@ Cấu hình Zeek nghe thụ động trên NIC DMZ và LAN.
 - [ ] local.zeek: JSON output
 - [ ] Bật community_id
 - [ ] Load signatures + intel
-- [ ] node.cfg 2 NIC (DMZ, LAN)
+- [ ] node.cfg 3 NIC (ext, DMZ, LAN)

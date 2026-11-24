@@ -56,9 +56,11 @@ Nguồn: `Group7_Proposal_NT204_IDPS_v3.docx`. File này dùng để giám sát 
 - [ ] VM5 Splunk Enterprise trên mgmt-net + adapter Host-only (192.168.56.10) để mở Splunk Web/SSH từ host; các VM khác dùng console (ghi **ngày bắt đầu trial 60 ngày**)
 - [ ] chrony: tất cả VM đồng bộ với VM2
 - [ ] NIC LAN của VM2: promiscuous "Allow All"; **test S1**: VM6 ↔ VM4 thấy bằng `tcpdump` trên NIC LAN của VM2 (xác nhận bằng `conn.log` ở S2)
-- [ ] Viết `scripts/verify-s1.sh`; kiểm thử từng dòng ma trận luồng (cho phép + bị từ chối), lưu output vào `evaluation/evidence/s1/`
+- [x] Viết `scripts/verify-s1.sh`
+- [ ] Chạy `verify-s1.sh` trên từng VM: mọi dòng ma trận luồng (cho phép + bị từ chối) PASS, lưu output vào `evaluation/evidence/s1/`
 - [ ] Chỉnh `lab/lab.env` theo interface thật (VM khác thì dùng `lab/lab.local.env`); áp netplan bằng `lab/render-netplan.sh <vm>`
-- [ ] Hoàn thiện `install.sh` cho VM1–VM6 và `apply.sh` cho VM2 (idempotent, chạy lại được)
+- [x] Viết `install.sh` cho VM1–VM6 và `apply.sh` cho VM2 (phần S1; chế độ `packages`/`configure`)
+- [ ] Chạy `install.sh`/`apply.sh` trên VM thật thành công và chạy lại được (idempotent), sửa lỗi phát sinh
 - [ ] Đường đưa repo/gói vào VM Internal Network: NIC NAT tạm hoặc `scp`/shared folder; gỡ NIC NAT sau khi cài xong
 - [ ] Snapshot VM sau khi dựng xong
 
@@ -69,12 +71,12 @@ Nguồn: `Group7_Proposal_NT204_IDPS_v3.docx`. File này dùng để giám sát 
 ## S2 – Log ingestion & data quality
 **Mục tiêu:** Log Zeek/nftables/Block Agent vào Splunk đúng index, đúng field.
 **Phụ thuộc:** S1.
-- [ ] Zeek trên 2 NIC (DMZ, LAN), JSON output, bật `community_id`
+- [ ] Zeek trên 3 NIC (ext, DMZ, LAN), JSON output, bật `community_id`. NIC ext để thấy cả lưu lượng bị firewall chặn (scan/brute force từ ngoài)
 - [ ] Zeek log: conn, dns, http, ssl, ssh, weird, signatures, notice, intel
 - [ ] Splunk UF trên VM2 (inputs/outputs)
 - [ ] Splunk Add-on for Zeek (CIM mapping)
-- [ ] Tạo 5 index: `zeek_dmz`, `zeek_lan`, `fw_audit`, `ground_truth`, `detections`
-- [ ] Dedup theo `community_id` cho luồng DMZ↔LAN thấy trên 2 NIC
+- [ ] Tạo 6 index: `zeek_ext`, `zeek_dmz`, `zeek_lan`, `fw_audit`, `ground_truth`, `detections`
+- [ ] Dedup theo `community_id` cho luồng đi qua VM2 bị thấy trên nhiều NIC (ext↔DMZ, DMZ↔LAN, LAN↔ext)
 - [ ] Data quality checks (đủ log, timestamp khớp, field src/dst/port/proto parse đúng, dedup hoạt động)
 - [ ] Lưu cấu hình dưới dạng Splunk app `splunk/apps/idps_lab`
 - [ ] Hoàn thiện `scripts/build_app.sh` + `lab/vm5-splunk/deploy_app.sh` (ghép `detections/*/*.spl` → `savedsearches.conf`, deploy vào VM5)

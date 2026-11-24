@@ -30,4 +30,11 @@ Chi tiết IP và cách dựng: [network-plan.md](network-plan.md). Sơ đồ: `
 | Còn lại | Deny (Zeek vẫn ghi nhận) |
 
 ## Luồng dữ liệu
-Zeek (VM2) → JSON logs → Splunk UF → VM5 (index `zeek_dmz`/`zeek_lan`) → SPL detections → index `detections` → correlation/alert → webhook → Block Agent (VM2) → nftables.
+Zeek (VM2) → JSON logs → Splunk UF → VM5 (index `zeek_ext`/`zeek_dmz`/`zeek_lan`) → SPL detections → index `detections` → correlation/alert → webhook → Block Agent (VM2) → nftables.
+
+## Vị trí sensor Zeek
+Zeek trên VM2 nghe **3 NIC: ext, DMZ, LAN** (không nghe mgmt).
+- NIC ext: thấy cả lưu lượng từ Internet giả (VM1) **bị firewall chặn** (scan, brute force); gói bị drop ở VM2 chỉ xuất hiện trên NIC này. Dữ liệu này nhiều và nhiễu hơn: SPL phải loại trừ IP đã bị block để không tạo cảnh báo lặp.
+- NIC DMZ và LAN: thấy luồng DMZ↔LAN và lưu lượng LAN ra ngoài.
+- Luồng intra-LAN (VM6 ↔ VM4) chỉ thấy được khi NIC LAN bật promiscuous "Allow All" (kiểm chứng ở S1).
+- Một luồng đi qua VM2 bị thấy trên hai NIC: khử trùng lặp theo `community_id`.
