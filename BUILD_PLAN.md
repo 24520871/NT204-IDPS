@@ -10,7 +10,7 @@ Nguồn: `Group7_Proposal_NT204_IDPS_v3.docx`. File này dùng để giám sát 
 
 | Stage | Tên | Ưu tiên | Owner | Trạng thái | % |
 |---|---|---|---|---|---|
-| S0 | Repo & Integration Contract | Core | Cả nhóm | 🟨 | 70 |
+| S0 | Repo & Integration Contract | Core | Cả nhóm | ✅ | 100 |
 | S1 | Lab infrastructure (5 VM, network, nftables) | Core | M1 | ⬜ | 0 |
 | S2 | Log ingestion & data quality | Core | M2 | ⬜ | 0 |
 | S3 | Benign traffic & baseline | Core | M2 | ⬜ | 0 |
@@ -35,9 +35,9 @@ Nguồn: `Group7_Proposal_NT204_IDPS_v3.docx`. File này dùng để giám sát 
 - [x] Gán owner cho từng stage/UC
 - [x] Tạo thư mục cho từng use case để tránh xung đột
 - [x] Chốt bảng `risk_score`, ngưỡng UC5 (≥ 3 giai đoạn / 2 giờ) và macro sourcetype Zeek
-- [ ] Mời M2–M4 vào repo, bật bảo vệ nhánh `main` (cần PR + 1 review)
-- [ ] Mỗi thành viên merge 1 PR nhỏ để kiểm chứng quy trình
-- [ ] Thay M1–M4 bằng tên thật trong BUILD_PLAN và contract
+- [x] Mời M2–M4 vào repo, bật bảo vệ nhánh `main` (cần PR + 1 review)
+- [x] Mỗi thành viên merge 1 PR nhỏ để kiểm chứng quy trình
+- [x] Thay M1–M4 bằng tên thật trong BUILD_PLAN và contract
 - [x] Chốt quy ước triển khai: monorepo, mỗi VM clone repo + chạy script của VM đó (`lab/<vm>/install.sh` lần đầu, `apply.sh` / `deploy_app.sh` sau mỗi `git pull`)
 - [x] Quy ước header file `.spl` (`name/uc/technique/severity/risk_score/cron/earliest/latest`) để `scripts/build_app.sh` sinh `savedsearches.conf`
 
