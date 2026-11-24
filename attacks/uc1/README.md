@@ -1,6 +1,6 @@
 # Attack scripts – UC1
 
-Quét/kết nối SSH/SMB từ web server hoặc container.
+Quét/kết nối SSH/SMB từ web server hoặc VM6 (workstation).
 
 ## Checklist
 

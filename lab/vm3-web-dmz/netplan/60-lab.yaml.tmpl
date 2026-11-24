@@ -1,0 +1,11 @@
+network:
+  version: 2
+  ethernets:
+    ${VM3_IF}:
+      dhcp4: false
+      addresses: [${VM3_IP}/24]
+      routes:
+        - to: default
+          via: ${VM2_DMZ_IP}
+      nameservers:
+        addresses: [${VM4_RESOLVER_IP}]

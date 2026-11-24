@@ -1,0 +1,15 @@
+network:
+  version: 2
+  ethernets:
+    ${VM2_IF_EXT}:
+      dhcp4: false
+      addresses: [${VM2_EXT_IP}/24]
+    ${VM2_IF_DMZ}:
+      dhcp4: false
+      addresses: [${VM2_DMZ_IP}/24]
+    ${VM2_IF_LAN}:
+      dhcp4: false
+      addresses: [${VM2_LAN_IP}/24]
+    ${VM2_IF_MGMT}:
+      dhcp4: false
+      addresses: [${VM2_MGMT_IP}/24]

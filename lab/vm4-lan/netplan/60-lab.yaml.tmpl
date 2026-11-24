@@ -1,0 +1,11 @@
+network:
+  version: 2
+  ethernets:
+    ${VM4_IF}:
+      dhcp4: false
+      addresses: [${VM4_IP}/24]
+      routes:
+        - to: default
+          via: ${VM2_LAN_IP}
+      nameservers:
+        addresses: [127.0.0.1]

@@ -45,19 +45,20 @@ Nguồn: `Group7_Proposal_NT204_IDPS_v3.docx`. File này dùng để giám sát 
 **Deliverable:** `README.md`, `docs/integration-contract.md`, `.github/`.
 
 ## S1 – Lab infrastructure
-**Mục tiêu:** Dựng đúng 5 VM VirtualBox, 3 vùng mạng + mgmt, luồng khớp Bảng 3.2.
+**Mục tiêu:** Dựng 6 VM VirtualBox (5 VM đề cương + VM6 workstation), 3 vùng mạng + mgmt, luồng khớp Bảng 3.2.
 **Phụ thuộc:** S0.
 - [ ] 4 VirtualBox Internal Network: `ext-net`, `dmz-net`, `lan-net`, `mgmt-net`
 - [ ] VM1 Kali: IP alias (update server / C2 / exfil), INetSim
 - [ ] VM2 Ubuntu: 4 NIC, IP forwarding, nftables default-deny theo Bảng 3.2
 - [ ] VM3 Web DMZ: ứng dụng có lỗ hổng thực thi lệnh; config chứa thông tin DB (pivot UC5)
-- [ ] VM4 LAN: MySQL, file share, resolver nội bộ (BIND/dnsmasq), 2 container Docker macvlan (mỗi container 1 IP LAN)
+- [ ] VM4 LAN server: MySQL, file share, resolver nội bộ (dnsmasq)
+- [ ] VM6 LAN workstation (thay 2 container macvlan; IP chính + 1 alias) (quyết định của trưởng nhóm: 5 → 6 VM)
 - [ ] VM5 Splunk Enterprise trên mgmt-net (ghi **ngày bắt đầu trial 60 ngày**)
 - [ ] chrony: tất cả VM đồng bộ với VM2
-- [ ] NIC LAN của VM2: promiscuous "Allow All"; **test**: tạo kết nối giữa 2 máy LAN → thấy trong `conn.log`
-- [ ] Kiểm thử từng dòng ma trận luồng (cho phép + bị từ chối)
-- [ ] Điền `lab/lab.env` (từ `lab/lab.env.example`) với IP/interface thật
-- [ ] Hoàn thiện `install.sh` cho VM1–VM5 và `apply.sh` cho VM2 (idempotent, chạy lại được)
+- [ ] NIC LAN của VM2: promiscuous "Allow All"; **test S1**: VM6 ↔ VM4 thấy bằng `tcpdump` trên NIC LAN của VM2 (xác nhận bằng `conn.log` ở S2)
+- [ ] Viết `scripts/verify-s1.sh`; kiểm thử từng dòng ma trận luồng (cho phép + bị từ chối), lưu output vào `evaluation/evidence/s1/`
+- [ ] Điền `lab/lab.env` (từ `lab/lab.env.example`) với interface thật; áp netplan bằng `lab/render-netplan.sh <vm>`
+- [ ] Hoàn thiện `install.sh` cho VM1–VM6 và `apply.sh` cho VM2 (idempotent, chạy lại được)
 - [ ] Đường đưa repo/gói vào VM Internal Network: NIC NAT tạm hoặc `scp`/shared folder; gỡ NIC NAT sau khi cài xong
 - [ ] Snapshot VM sau khi dựng xong
 
@@ -201,8 +202,8 @@ Nguồn: `Group7_Proposal_NT204_IDPS_v3.docx`. File này dùng để giám sát 
 | Rủi ro | Giảm thiểu |
 |---|---|
 | Splunk trial 60 ngày, sau đó alert ngừng | Dựng VM5 sao cho phát triển + đánh giá nằm trọn trong trial; lưu cấu hình dưới dạng app trong GitHub |
-| Thiếu tài nguyên host | Điều chỉnh cấu hình VM; Docker container thay VM cho máy trạm |
-| Không thấy traffic intra-LAN | Promiscuous "Allow All" + test ở S1; nếu không được, nêu giới hạn |
+| Thiếu tài nguyên host | Điều chỉnh cấu hình VM (VM6 chỉ 1 vCPU/1 GB); tổng 6 VM |
+| Không thấy traffic intra-LAN | Máy trạm là VM riêng (VM6) thay container macvlan; promiscuous "Allow All" + tcpdump ở S1; nếu không được, nêu giới hạn |
 | HTTPS làm hạn chế phát hiện exfil | Dựa vào volume/thời gian; nêu rõ trong báo cáo |
 | Trùng lặp bản ghi DMZ↔LAN | `community_id` + dedup |
 | Thiếu thời gian UC5 | Fallback dashboard + chặn thủ công |

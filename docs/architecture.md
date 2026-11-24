@@ -1,6 +1,6 @@
 # Kiến trúc
 
-Sơ đồ: `docs/diagrams/Zeek_Splunk_System_Architecture.drawio`, `docs/diagrams/nt204.drawio.png`.
+Chi tiết IP và cách dựng: [network-plan.md](network-plan.md). Sơ đồ: `docs/diagrams/Zeek_Splunk_System_Architecture.drawio`, `docs/diagrams/nt204.drawio.png`.
 
 ## Bảng 3.1 – Máy ảo
 
@@ -9,7 +9,8 @@ Sơ đồ: `docs/diagrams/Zeek_Splunk_System_Architecture.drawio`, `docs/diagram
 | VM1 Kali | ext-net | Attacker + giả lập Internet (C2, DNS, exfil, INetSim) | 1 vCPU, 2 GB |
 | VM2 Ubuntu FW+Zeek | ext, dmz, lan, mgmt (4 NIC) | nftables, Block Agent, Zeek, Splunk UF | 2 vCPU, 4 GB |
 | VM3 Ubuntu Web | dmz-net | Web app có lỗ hổng (DB ở LAN) | 1 vCPU, 1–2 GB |
-| VM4 Ubuntu LAN | lan-net | MySQL, file share, DNS resolver, 2 container Docker macvlan | 2 vCPU, 3 GB |
+| VM4 Ubuntu LAN | lan-net | MySQL, file share, DNS resolver (dnsmasq) | 2 vCPU, 3 GB |
+| VM6 Ubuntu workstation | lan-net | Máy trạm LAN (thay 2 container macvlan; 2 IP) — lệch đề cương gốc 5 VM | 1 vCPU, 1 GB |
 | VM5 Splunk | mgmt-net | Splunk Enterprise + Add-on for Zeek | 2 vCPU, 6–8 GB |
 
 ## Network

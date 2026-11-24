@@ -1,0 +1,16 @@
+# Kali co the dung NetworkManager thay netplan; neu vay, cau hinh dia chi/route tuong duong bang nmcli.
+network:
+  version: 2
+  ethernets:
+    ${VM1_IF}:
+      dhcp4: false
+      addresses:
+        - ${VM1_IP}/24
+        - ${VM1_UPDATE_IP}/24
+        - ${VM1_C2_IP}/24
+        - ${VM1_EXFIL_IP}/24
+      routes:
+        - to: ${DMZ_NET}
+          via: ${VM2_EXT_IP}
+        - to: ${LAN_NET}
+          via: ${VM2_EXT_IP}
