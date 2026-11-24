@@ -10,15 +10,15 @@ Nguồn: `Group7_Proposal_NT204_IDPS_v3.docx`. File này dùng để giám sát 
 
 | Stage | Tên | Ưu tiên | Owner | Trạng thái | % |
 |---|---|---|---|---|---|
-| S0 | Repo & Integration Contract | Core | @member? | ⬜ | 0 |
-| S1 | Lab infrastructure (5 VM, network, nftables) | Core | @member? | ⬜ | 0 |
-| S2 | Log ingestion & data quality | Core | @member? | ⬜ | 0 |
-| S3 | Benign traffic & baseline | Core | @member? | ⬜ | 0 |
-| S4 | Detection engineering (Basic rules + UC1–UC4) | Core | @member? | ⬜ | 0 |
-| S5 | Prevention & response (Block Agent, playbook) | Core | @member? | ⬜ | 0 |
-| S6 | UC5 multi-stage correlation & dashboard | Sau-S4 | @member? | ⬜ | 0 |
-| S7 | Testing & evaluation | Core | @member? | ⬜ | 0 |
-| S8 | Tuning, evasion, báo cáo & demo | Mở rộng/Final | @member? | ⬜ | 0 |
+| S0 | Repo & Integration Contract | Core | Cả nhóm | 🟨 | 70 |
+| S1 | Lab infrastructure (5 VM, network, nftables) | Core | M1 | ⬜ | 0 |
+| S2 | Log ingestion & data quality | Core | M2 | ⬜ | 0 |
+| S3 | Benign traffic & baseline | Core | M2 | ⬜ | 0 |
+| S4 | Detection engineering (Basic rules + UC1–UC4) | Core | M3 (Basic, UC1, UC2) · M4 (UC3, UC4) | ⬜ | 0 |
+| S5 | Prevention & response (Block Agent, playbook) | Core | M1 | ⬜ | 0 |
+| S6 | UC5 multi-stage correlation & dashboard | Sau-S4 | M2 | ⬜ | 0 |
+| S7 | Testing & evaluation | Core | M4 | ⬜ | 0 |
+| S8 | Tuning, evasion, báo cáo & demo | Mở rộng/Final | Cả nhóm | ⬜ | 0 |
 
 **Phụ thuộc:** S0 → S1 → S2 → S3 → S4 → S5 → S7 → S8. S6 sau S4 (cần UC1–UC4) và dùng S5. S4 có thể chia song song giữa các thành viên (mỗi UC một thư mục) nhờ Integration Contract ở S0. Thiết kế playbook (S5) và script tấn công (S7) có thể viết sớm song song với S4.
 
@@ -27,15 +27,19 @@ Nguồn: `Group7_Proposal_NT204_IDPS_v3.docx`. File này dùng để giám sát 
 ## S0 – Repo & Integration Contract
 **Mục tiêu:** Có repo chuẩn và thỏa thuận chung để phát triển song song.
 **Phụ thuộc:** không.
-- [ ] Skeleton repo, `.gitignore` (không commit credential, `.ova/.vdi`, pcap), `.editorconfig`
-- [ ] Quy ước branch/PR (feature branch, review chéo trước khi merge), template PR/issue
-- [ ] Điền `docs/integration-contract.md`: index/sourcetype, tên trường, timestamp, severity, risk_score
-- [ ] Chốt schema index `detections` (detection_name, src_ip, dest_ip, first_seen, last_seen, severity, evidence, risk_score, technique)
-- [ ] Chốt schema `ground_truth` và `fw_audit`
-- [ ] Gán owner cho từng stage/UC
-- [ ] Tạo thư mục cho từng use case để tránh xung đột
-- [ ] Chốt quy ước triển khai: monorepo, mỗi VM clone repo + chạy script của VM đó (`lab/<vm>/install.sh` lần đầu, `apply.sh` / `deploy_app.sh` sau mỗi `git pull`)
-- [ ] Quy ước header file `.spl` (`# name/cron/earliest/latest`) để `scripts/build_app.sh` sinh `savedsearches.conf`
+- [x] Skeleton repo, `.gitignore` (không commit credential, `.ova/.vdi`, pcap), `.editorconfig`
+- [x] Quy ước branch/PR (feature branch, review chéo trước khi merge), template PR/issue
+- [x] Điền `docs/integration-contract.md`: index/sourcetype, tên trường, timestamp, severity, risk_score
+- [x] Chốt schema index `detections` (detection_name, src_ip, dest_ip, first_seen, last_seen, severity, evidence, risk_score, technique)
+- [x] Chốt schema `ground_truth` và `fw_audit`
+- [x] Gán owner cho từng stage/UC
+- [x] Tạo thư mục cho từng use case để tránh xung đột
+- [x] Chốt bảng `risk_score`, ngưỡng UC5 (≥ 3 giai đoạn / 2 giờ) và macro sourcetype Zeek
+- [ ] Mời M2–M4 vào repo, bật bảo vệ nhánh `main` (cần PR + 1 review)
+- [ ] Mỗi thành viên merge 1 PR nhỏ để kiểm chứng quy trình
+- [ ] Thay M1–M4 bằng tên thật trong BUILD_PLAN và contract
+- [x] Chốt quy ước triển khai: monorepo, mỗi VM clone repo + chạy script của VM đó (`lab/<vm>/install.sh` lần đầu, `apply.sh` / `deploy_app.sh` sau mỗi `git pull`)
+- [x] Quy ước header file `.spl` (`name/uc/technique/severity/risk_score/cron/earliest/latest`) để `scripts/build_app.sh` sinh `savedsearches.conf`
 
 **DoD:** Cả nhóm clone repo, đọc contract, merge được PR đầu tiên.
 **Deliverable:** `README.md`, `docs/integration-contract.md`, `.github/`.

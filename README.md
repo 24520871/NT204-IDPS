@@ -22,6 +22,6 @@ Hệ thống phát hiện và ngăn chặn xâm nhập cho lab mô phỏng doanh
 | `scripts/` | Tiện ích chung |
 
 ## Quy ước làm việc
-- Mỗi thành viên làm trên feature branch, thư mục use case riêng; PR được review chéo trước khi merge.
+- Nhánh `<stage>/<use-case>-<mô-tả>` (VD `s4/uc2-entropy-rule`), commit bắt đầu bằng `[S4][UC2]`; mỗi PR cần 1 reviewer khác, squash merge. Chi tiết trong `docs/integration-contract.md`.
 - Không commit credential, token, pcap hoặc file máy ảo.
 - Docs tiếng Việt; code, tên file và tên trường tiếng Anh.
