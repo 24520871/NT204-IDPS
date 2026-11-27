@@ -16,6 +16,6 @@ fi
 if want configure; then
   chrony_client "$VM2_LAN_IP"
   # DNS da duoc tro ve VM4 trong netplan (lab/render-netplan.sh vm6)
-  # TODO (S3): bat script sinh traffic lanh tinh tu traffic/ (cron/systemd timer)
+  # TODO (S4): bat script sinh traffic lanh tinh tu traffic/ (cron/systemd timer)
 fi
 # Script tan cong UC1-UC4 chay truc tiep tu ban clone: attacks/<uc>/
