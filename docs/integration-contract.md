@@ -71,16 +71,16 @@ Mỗi file `detections/<uc>/*.spl` bắt đầu bằng header; `scripts/build_ap
 - Commit message bắt đầu bằng `[S4][UC2]`.
 - Mỗi PR tick checklist tương ứng trong `BUILD_PLAN.md`.
 
-## Phân công (đã chốt)
+## Phân công
 
 | Người | Phụ trách |
 |---|---|
-| M1 | S1 lab/nftables; S5 Block Agent và playbook |
-| M2 | S2 ingest; S3 baseline; S6 UC5 và dashboard |
-| M3 | S4: Basic rules, UC1, UC2 |
-| M4 | S4: UC3, UC4; S7 evaluation |
+| M1 | S1 lab/nftables + S2 ingest (làm liền, xuất OVA 6 VM một lần); S4 Basic rules (scan, brute force) + script tấn công |
+| M2 | Soạn sẵn config S2 cho M1; S5 Block Agent, alert action, playbook; S6 UC5 và dashboard |
+| M3 | S4 UC1, UC2 + script tấn công; Zeek `.sig`/`.intel`; script benign (`traffic/`) và đoạn benign để backtest |
+| M4 | S4 UC3, UC4 + script tấn công; S7 SPL đối chiếu, metrics, tổng hợp |
 
-S0 và S8 làm chung.
+S7: mỗi người chạy chiến dịch cho UC của mình (M2 chạy UC5). S0 và S8 làm chung. Thứ tự nghiệm thu và bàn giao OVA: xem mục "Cách làm việc" trong `BUILD_PLAN.md`.
 
 ## Định dạng `ground_truth`
 
