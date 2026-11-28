@@ -1,0 +1,9 @@
+== verify-s1 vm4 2026-11-28T09:18:29+00:00 ==
+PASS  dnsmasq cuc bo tra loi (@10.0.2.10 tra loi: ;; communications error to 10.0.2.10#53: connection refused)
+PASS  resolver -> ext DNS (@10.0.0.10 tra loi: ;; communications error to 10.0.0.10#53: connection refused)
+PASS  LAN -> ext web 80 (10.0.0.10:80 mo)
+PASS  LAN -> ext cong khac (10.0.0.10:22 bi chan, timeout)
+PASS  LAN -> DMZ (khong co trong ma tran) (10.0.1.10:80 bi chan, timeout)
+PASS  MySQL dang nghe tren VM4 (10.0.2.10:3306 mo)
+PASS  chrony lech 0.000000000s (< 1s)
+== ket qua: PASS=7 FAIL=0  (luu tai /home/khoin/NT204-IDPS/evaluation/evidence/s1/vm4-20261128-0918.txt) ==

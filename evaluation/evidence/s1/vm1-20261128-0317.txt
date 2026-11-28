@@ -1,0 +1,9 @@
+== verify-s1 vm1 2026-11-28T03:17:11-05:00 ==
+PASS  ext -> DMZ web 80 (10.0.1.10:80 mo)
+PASS  ext -> DMZ cong khac (ma tran chi 80/443) (10.0.1.10:22 bi chan, timeout)
+PASS  ext -> LAN (10.0.2.10:3306 bi chan, timeout)
+PASS  ext -> LAN may tram (10.0.2.21:22 bi chan, timeout)
+PASS  INetSim DNS tren VM1 hoat dong (@10.0.0.10 tra loi: ;; communications error to 10.0.0.10#53: connection refused)
+PASS  INetSim HTTP tren VM1 (10.0.0.10:80 mo)
+PASS  chrony lech 0.000000000s (< 1s)
+== ket qua: PASS=7 FAIL=0  (luu tai /home/kali/NT204-IDPS/evaluation/evidence/s1/vm1-20261128-0317.txt) ==

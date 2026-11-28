@@ -1,0 +1,10 @@
+== verify-s1 vm2 2026-11-28T08:17:56+00:00 ==
+PASS  bang nftables inet idps da nap
+PASS  ip_forward = 1
+PASS  chrony server dang chay
+PASS  NIC enp0s3 (EXT) UP
+PASS  NIC enp0s8 (DMZ) UP
+PASS  NIC enp0s9 (LAN) UP
+PASS  NIC enp0s10 (MGMT) UP
+(bo qua kiem tra intra-LAN: chay lai voi tham so 'capture')
+== ket qua: PASS=7 FAIL=0  (luu tai /home/khoin/NT204-IDPS/evaluation/evidence/s1/vm2-20261128-0817.txt) ==

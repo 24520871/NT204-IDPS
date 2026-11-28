@@ -1,0 +1,10 @@
+== verify-s1 vm6 2026-11-28T08:27:02+00:00 ==
+PASS  may tram hoi DNS qua resolver noi bo (@10.0.2.10 tra loi: ;; communications error to 10.0.2.10#53: connection refused)
+PASS  may tram hoi DNS thang ra ngoai (vi pham dac ta) (@10.0.0.10 bi chan, khong co phan hoi)
+PASS  LAN -> ext web 80 (10.0.0.10:80 mo)
+PASS  LAN -> ext cong khac (10.0.0.10:22 bi chan, timeout)
+PASS  LAN -> DMZ (10.0.1.10:80 bi chan, timeout)
+PASS  intra-LAN VM6 -> VM4 MySQL (10.0.2.10:3306 mo)
+PASS  intra-LAN VM6 -> VM4 SMB (10.0.2.10:445 mo)
+PASS  chrony lech 0.000000000s (< 1s)
+== ket qua: PASS=8 FAIL=0  (luu tai /home/khoin/NT204-IDPS/evaluation/evidence/s1/vm6-20261128-0827.txt) ==

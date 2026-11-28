@@ -1,0 +1,10 @@
+== verify-s1 vm3 2026-11-28T08:28:18+00:00 ==
+PASS  DMZ -> LAN MySQL (luong hop le duy nhat) (10.0.2.10:3306 mo)
+PASS  DMZ -> LAN cong khac (10.0.2.10:22 bi chan, timeout)
+PASS  DMZ -> LAN DNS (khong nam trong ma tran) (10.0.2.10:53 bi chan, timeout)
+PASS  DMZ -> may tram LAN (10.0.2.21:22 bi chan, timeout)
+PASS  DMZ -> may chu cap nhat (10.0.0.11:80 mo)
+PASS  DMZ -> IP C2 (khong phai may chu cap nhat) (10.0.0.12:80 bi chan, timeout)
+PASS  DMZ -> VM1 IP chinh (khong phai may chu cap nhat) (10.0.0.10:80 bi chan, timeout)
+PASS  chrony lech 0.000000000s (< 1s)
+== ket qua: PASS=8 FAIL=0  (luu tai /home/khoin/NT204-IDPS/evaluation/evidence/s1/vm3-20261128-0828.txt) ==
